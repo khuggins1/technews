@@ -2,7 +2,8 @@ const path = require('path');
 const express = require('express');
 const routes = require('./controllers');
 const sequelize = require('./config/connection');
-
+const app = express();
+const PORT = process.env.PORT || 3001;
 
 //setup handlebars as template engine
 const helpers = require('./utils/helpers');
@@ -21,9 +22,9 @@ const sess = {
     db: sequelize
   })
 };
+// app.use(express.cookieParser('secret'));
+// app.use(express.cookieSession());
 
-const app = express();
-const PORT = process.env.PORT || 3001;
 
 //use handlebard template engine
 app.engine('handlebars', hbs.engine);
@@ -40,6 +41,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(routes);
 
 // turn on connection to db and server
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: true }).then(() => {
   app.listen(PORT, () => console.log('Now listening'));
 }); 
