@@ -9,8 +9,8 @@ router.get('/', (req, res) => {
     Post.findAll({
       attributes: [
         'id',
-        'post_url',
         'title',
+        'content',
         'created_at',
       ],
       order: [['created_at', 'DESC']], 
@@ -79,8 +79,8 @@ router.get('/:id', (req, res) => {
 router.post('/', withAuth, (req, res) => {
     Post.create({
       title: req.body.title,
-      post_url: req.body.post_url,
-      user_id: req.session.user_id
+      content: req.body.content,
+      user_id: req.body.user_id
     })
       .then(dbPostData => res.json(dbPostData))
       .catch(err => {
